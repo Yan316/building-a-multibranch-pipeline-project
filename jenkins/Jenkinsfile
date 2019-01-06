@@ -32,4 +32,19 @@ pipeline {
             }
         }
     }
+
+    post{
+      success {
+        echo 'deploy successfully'
+        mail to: 'huangyan.316@163.com',
+             subject: "Successful Pipeline: ${currentBuild.fullDisplayName}",
+             body: "Deploy successfully with ${env.BUILD_URL}"
+      }
+      failure {
+        echo 'deploy failed'
+        mail to: 'huangyan.316@163.com',
+             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+             body: "Something is wrong with ${env.BUILD_URL}"
+      }
+    }
 }
