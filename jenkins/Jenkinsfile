@@ -11,19 +11,16 @@ pipeline {
         }
         stage('Test') {
             steps {
-                timeout(time: 1, unit: 'MINUTES'){
-                    parallel {
-                        'task1'{
-                            echo 'Parallel Task1'
-                            sh './jenkins/scripts/test.sh'
-                        }
-                        'task2' {
-                            echo 'Parallel Task2'
-                        }
+                parallel (
+                    'task1': {
+                        echo 'Parallel Task1'
+                        sh './jenkins/scripts/test.sh'
+                    },
+                    'task2': {
+                        echo 'Parallel Task1'
                     }
-                }
+                )
             }
-
         }
         stage('Deliver for development') {
             steps {
