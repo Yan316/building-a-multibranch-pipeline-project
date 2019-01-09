@@ -19,6 +19,7 @@ pipeline {
             steps {
                 parallel (
                     'task1': {
+                        helloWorld()
                         echo 'Parallel Task1'
                         sh './jenkins/scripts/test.sh'
                     },
@@ -77,4 +78,8 @@ pipeline {
              body: "Something is wrong with ${env.BUILD_URL}"
       }
     }
+}
+
+def helloWorld() {
+    echo 'Hello World'
 }
