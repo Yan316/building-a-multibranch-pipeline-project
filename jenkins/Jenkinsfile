@@ -29,7 +29,7 @@ pipeline {
             }
         }
         parallel(
-            stage('Deliver for development') {
+            stage('Deliver for development1') {
                 steps {
                     sh './jenkins/scripts/deliver-for-development.sh'
                     input message: 'Finished using the web site? (Click "Proceed" to continue)'
