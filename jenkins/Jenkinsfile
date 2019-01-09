@@ -28,25 +28,39 @@ pipeline {
                 )
             }
         }
-        parallel(
-            stage('Deliver for development1') {
-                steps {
-                    sh './jenkins/scripts/deliver-for-development.sh'
-                    input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                    sh './jenkins/scripts/kill.sh'
+        stage('Deliver for development') {
+            steps {
+                sh './jenkins/scripts/deliver-for-development.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh './jenkins/scripts/kill.sh'
+            }
+        }
+        stage('Deploy for production') {
+            when {
+                branch 'production'
+            }
+            steps {
+                sh './jenkins/scripts/deploy-for-production.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh './jenkins/scripts/kill.sh'
+            }
+        }
+        stage('deploy') {
+            parallel {
+                stage ('Starting Test')
+                {
+                    steps {
+                        echo 'firstbranch'
+                    }
+                }
+                stage ('Starting Test2')
+                {
+                     steps {
+                        echo 'firstbranch'
+                    }
                 }
             }
-            stage('Deploy for production') {
-                when {
-                    branch 'production'
-                }
-                steps {
-                    sh './jenkins/scripts/deploy-for-production.sh'
-                    input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                    sh './jenkins/scripts/kill.sh'
-                }
-            }
-        )
+        }
     }
 
     post{
